@@ -29,6 +29,8 @@ object camion {
     method tieneAlgoQuePesaEntre(min, max) = cosas.any( {c => c.peso().between(min, max)} )
 
 	method cosaMasPesada() = cosas.max({c => c.peso()})
+    method totalBultos() = cosas.sum({ unaCosa => unaCosa.bultos() })
+    method pesos() = cosas.map({unaCosa => unaCosa.peso()})
 }
 
 
@@ -37,9 +39,7 @@ object knightRider {
     method peso() = 500
 	method peligrosidad() = 10
 	method bultos() = 1
-	method accidente() {
-	  
-	}
+	method accidente(){}
 }
 
 object arenaGranel {
@@ -48,10 +48,9 @@ object arenaGranel {
     method peso() = peso
     method peligrosidad() = 1 
     method bultos() = 1
-
-  method accidente() {
-	peso = peso + 20
-  }
+    method accidente() {
+        peso = peso + 20
+    }
 }
 
 object bumblebee {
@@ -59,14 +58,13 @@ object bumblebee {
     method peso() = 800
     method peligrosidad() = if (modoAuto) 15 else 30
     method bultos() = 2
-
-  method accidente() {
-	if (modoAuto){
-		modoAuto = false
-	}else{
-		modoAuto = true
-	}
-  }
+    method accidente() {
+        if (modoAuto){
+            modoAuto = false
+        }else{
+            modoAuto = true
+        }
+    }
 }
 
 object paqueteLadrillos {
@@ -75,10 +73,9 @@ object paqueteLadrillos {
     method peso() = 2 * cantLadrillos
     method peligrosidad() = 2 
     method bultos() = if (cantLadrillos <= 100) 1 else if(cantLadrillos <= 300) 2 else 3
-
-  method accidente() {
-	cantLadrillos = (cantLadrillos - 12).max(0)
-  }
+    method accidente() {
+        cantLadrillos = (cantLadrillos - 12).max(0)
+    }
 }
 
 object bateriaAntiaerea {
@@ -87,11 +84,11 @@ object bateriaAntiaerea {
     method peso() = if (hayMisiles) 300 else 200
     method peligrosidad() = if (hayMisiles) 100 else 0
     method bultos() = if (self.hayMisiles()) 2 else 1
-  method accidente() {
-	if (hayMisiles){
-		hayMisiles = false
-	}
-  }
+    method accidente() {
+        if (hayMisiles){
+            hayMisiles = false
+        }
+    }
 }
 
 object residuosRadiactivos {
@@ -109,11 +106,8 @@ object embalajeSeguridad {
 
     method peso() = cargaEnvuelta.peso()
     method peligrosidad() = cargaEnvuelta.peligrosidad()/2
-
-  method bultos() = 2
-  method accidente() {
-	
-  }
+    method bultos() = 2
+    method accidente() {}
 }
 
 object contenedorPortuario {
@@ -130,8 +124,5 @@ object contenedorPortuario {
     method pesoDeCosas() = carga.sum({unaCosa => unaCosa.peso()})
     method peligrosidad() = if(carga.isEmpty()) 0 else self.cargaMasPeligrosa()
     method cargaMasPeligrosa() =  carga.max({carga => carga.peligrosidad()}).peligrosidad()
-
-  method bultos() {
-	return 1 + carga.sum({ c => c.bultos() })
-  }
+    method bultos() =1 + carga.sum({ c => c.bultos() })
 }
